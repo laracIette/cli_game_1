@@ -1,0 +1,56 @@
+Player
+    Types
+        electrique > eau
+        eau        > feu
+        feu        > electrique
+
+    Attacks
+        type électrique : électrocution
+                          foudre
+             eau : éclaboussure
+                   tsunami
+             feu : poing de feu
+                   boule de feu
+
+Arena
+    Types (avantage type player) + 1/14 esquive
+        electrique
+        eau
+        feu
+        terre
+        sable
+        glace
+
+    Random
+
+
+choisissez votre type
+
+100pv base
+10 stamina
+
+9dmg simple -> 1 sta
+17dmg double -> 2 sta
+
+sauter 1 tour = +5 pv
+                +1 sta
+sauter 2 tours = +6 pv
+                 +2 sta
+                 +1 shield
+sauter 3 tours = +2 shield
+
+type contre = -66% dmg simple 1 chance sur 3
+              -50% dmg double 1 chance sur 2
+
+              +50% dmg pris 1 chance sur 4
+
+2 types pareils interdits
+
+mode type random
+
+1 chance sur 30 d avoir double dmg pendant 1 tour mais 2x stamina
+
+le joueur choisit son adversaire mais ne peut pas attaquer un qui vient
+d'etre attaque
+
+attaquants dans l'ordre du tableau
