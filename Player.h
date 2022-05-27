@@ -1,7 +1,11 @@
 #include <iostream>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef MY_PLAYER_H
 #define MY_PLAYER_H
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Player
 {
@@ -12,8 +16,6 @@ class Player
 
     int skippedTurns{0};
 
-    std::string playerTypes[3]{"electric", "water", "fire"};
-
     int playerType;
     int counterType;
 
@@ -23,6 +25,7 @@ class Player
 
 public:
     Player();
+
 
     // set //
     void setHealthPoints( int hps );
@@ -39,6 +42,7 @@ public:
     void setPlayerNumber( int num );
     void setEnemyNumber( int num );
 
+
     // get //
     int getHealthPoints();
     int getStamina();
@@ -53,6 +57,7 @@ public:
 
     int getPlayerNumber();
     int getEnemyNumber();
+
 
     // game //
     void showAttacks();
@@ -80,5 +85,7 @@ public:
     void skipTurn();
 
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endif // MY_PLAYER_H

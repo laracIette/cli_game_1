@@ -1,15 +1,21 @@
 #include "Player.cpp"
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void runMenu();
 void runGame();
 
-std::vector<Player> playersArray;
-int arenaSurfaceType;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::vector<Player> playersArray;   // get playerArray      from global.h
+int arenaSurfaceType;               // get arenaSurfaceType from global.h
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main()
 {
 
-    system("cls");
+    system("cls");   // clear cli
 
     runMenu();
     std::cout << "See you next time";
@@ -17,6 +23,8 @@ int main()
     return 0;
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void runMenu()
 {
@@ -29,12 +37,16 @@ void runMenu()
     while( isRunning )
     {
         std::cout << "1 : New Player, 2 : Start Game, 3 : Exit Game\n\n";
+
         for(;;)
         {
+            while( !isAnyKeyPressed() );   // while nothing pressed do nothing
 
+            // if 1, 2 or 3 pressed //
             if( isKeyPressed( '1' ) )
             {
                 system("cls");
+
                 if( playersArray.size() >= MAXIMUM_NUMBER_OF_PLAYERS )
                 {
                     std::cout << "Maximum number of Players already reached\n"
@@ -42,28 +54,30 @@ void runMenu()
                     continue;
                 }
 
-                Player MyPlayer;
+                Player MyPlayer;                           // new instance of Player
                 MyPlayer.setPlayerNumber( playerNumber );
 
-                isPlayerTypeSucces = MyPlayer.setType();
+                isPlayerTypeSucces = MyPlayer.setType();   // true if MyPlayer chose a type not taken
 
                 if( isPlayerTypeSucces )
                 {
-                    playersArray.push_back( MyPlayer );
+                    playersArray.push_back( MyPlayer );    // add MyPlayer to playersArray
                     ++playerNumber;
                 }
 
                 break;
             }
+
             else if( isKeyPressed( '2' ) )
             {
                 system("cls");
-                if( playersArray.size() >= 2 )
-                {
-                    isRunGame = true;
-                    isRunning = false;
 
-                    arenaSurfaceType = rand() % PROB_ARENA_SURFACE;
+                if( playersArray.size() >= 2 )   // if 2 players or more
+                {
+                    isRunning = false;   // exit menu
+                    isRunGame = true;    // go to game
+
+                    arenaSurfaceType = rand() % PROB_ARENA_SURFACE;   // surface is random
                 }
                 else
                 {
@@ -72,21 +86,25 @@ void runMenu()
 
                 break;
             }
+
             else if( isKeyPressed( '3' ) )
             {
                 system("cls");
-                isRunning = false;
+
+                isRunning = false;   // exit menu
 
                 break;
             }
         }
     }
+
     if( isRunGame )
     {
         runGame();
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void runGame()
 {
@@ -97,18 +115,19 @@ void runGame()
     {
         for( size_t i{0}; i < playersArray.size(); ++i )
         {
-            playersArray[i].selectEnemy();
+            playersArray[i].selectEnemy();   // set enemy of current player
 
             system("cls");
 
             std::cout << "Enemy : ";
-            playersArray[playersArray[i].getEnemyNumber()].showShortStats();
+            playersArray[playersArray[i].getEnemyNumber()].showShortStats();   // show current player's enemy's stats
 
             for(;;)
             {
                 isNext = false;
-                while( !isAnyKeyPressed() );
+                while( !isAnyKeyPressed() );   // while nothing pressed do nothing
 
+                // if H, S, D, N or P pressed //
                 if( isKeyPressed( 'H' ) )
                 {
                     std::cout << "Help\n"
@@ -121,19 +140,21 @@ void runGame()
                               << "    Press P to show stats\n"
                               << "    Press ESCAPE to exit\n\n";
                 }
+
                 else if( isKeyPressed( 'S' ) )
                 {
-                    if( playersArray[i].getStamina() < ATTACK_SIMPLE_STAMINA )
+                    if( playersArray[i].getStamina() < ATTACK_SIMPLE_STAMINA )   // stamina check for simple attack
                     {
                         std::cout << "Insufficient Stamina\n";
                     }
                     else
                     {
-                        playersArray[i].simpleAttack();
+                        playersArray[i].simpleAttack();   // do simple attack
 
-                        isNext = true;
+                        isNext = true;   // go to next player
                     }
                 }
+
                 else if( isKeyPressed( 'D' ) )
                 {
                     if( playersArray[i].getStamina() < ATTACK_DOUBLE_STAMINA )
@@ -147,23 +168,28 @@ void runGame()
                         isNext = true;
                     }
                 }
+
                 else if( isKeyPressed( 'N' ) )
                 {
                     playersArray[i].skipTurn();
 
                     isNext = true;
                 }
+
                 else if( isKeyPressed( 'P' ) )
                 {
                     playersArray[i].showShortStats();
                 }
+
                 else if( isKeyPressed( VK_ESCAPE ) )
                 {
-                    return;
+                    return;   // exit run and game
                 }
+
 
                 if( isNext )
                 {
+                    // wait for press and release any button to go to next player //
                     std::cout << "\nPress anything\n";
                     while( !isAnyKeyPressed() );
                     while( isAnyKeyPressed() );

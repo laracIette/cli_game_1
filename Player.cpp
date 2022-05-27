@@ -101,6 +101,8 @@ bool Player::setType()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::setCounterType( int typ )
 {
     if     ( getType() == 0 ) this->counterType = 2;
@@ -108,11 +110,15 @@ void Player::setCounterType( int typ )
     else if( getType() == 2 ) this->counterType = 1;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::showAttacks()
 {
     std::cout << "Simple attack (" << ATTACK_SIMPLE_DAMAGE << ")  : " << ATTACKS_ARRAY[this->playerType][0] << '\n'
               << "Double attack (" << ATTACK_DOUBLE_DAMAGE << ") : "  << ATTACKS_ARRAY[this->playerType][1] << '\n';
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int Player::selectAttack()
 {
@@ -128,6 +134,8 @@ int Player::selectAttack()
     if( number == 1 ) return ATTACK_SIMPLE_DAMAGE;
     else              return ATTACK_DOUBLE_DAMAGE;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::reduceHealth( int dmg )
 {
@@ -153,6 +161,8 @@ void Player::increaseHealth( int hps )
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::reduceStamina( int sta )
 {
     setStamina( getStamina() - sta );
@@ -169,6 +179,8 @@ void Player::increaseStamina( int sta )
         setStamina( MAX_STAMINA );
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::reduceShield( int shd )
 {
@@ -194,10 +206,14 @@ void Player::increaseShield( int shd )
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::increaseSkippedTurns(int skp)
 {
     setSkippedTurns( getSkippedTurns() + skp );
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::showShortStats()
 {
@@ -205,6 +221,8 @@ void Player::showShortStats()
               << "    Health Points : " << getHealthPoints() << '\n'
               << "    Stamina       : " << getStamina()      << "\n\n";
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::selectEnemy()
 {
@@ -231,6 +249,8 @@ void Player::selectEnemy()
         }
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::simpleAttack()
 {
@@ -296,6 +316,8 @@ void Player::simpleAttack()
     reduceStamina( ATTACK_SIMPLE_STAMINA );
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::doubleAttack()
 {
     int attackDamage{ATTACK_DOUBLE_DAMAGE};
@@ -347,6 +369,8 @@ void Player::doubleAttack()
 
     reduceStamina( ATTACK_DOUBLE_STAMINA );
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::skipTurn()
 {

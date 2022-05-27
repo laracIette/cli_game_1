@@ -1,9 +1,14 @@
 #include <windows.h>
 #include <vector>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifndef MY_GLOBALS_H
 #define MY_GLOBALS_H
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*-------------------------- constants --------------------------*/
 
 // probas // rand() % PROB_EXEMPLE //
 extern const int PROB_DODGE_GAIN{14};
@@ -43,8 +48,6 @@ extern const float MALUS_DOUBLE_ATTACK_MULTIPLIER{0.50f};
 extern const float BONUS_DAMAGE_TAKEN_MULTIPLIER{1.50f};
 
 
-extern int arenaSurfaceType;
-
 // arrays //
 extern const std::string SURFACE_TYPES[6]{
     "electric",
@@ -61,24 +64,29 @@ extern const std::string ATTACKS_ARRAY[3][2]{
     {"Fire punch", "Fireball" },
 };
 
+/*-------------------------- variables --------------------------*/
+
+extern int arenaSurfaceType;
+
 
 // vector for Player instances
 extern std::vector<Player> playersArray;
 
 
-// functions //
-bool isKeyPressed( char key ) // return if a key is pressed
+/*-------------------------- functions --------------------------*/
+bool isKeyPressed( char key )   // return if key is pressed
 {
-    if( GetKeyState( key ) & 0x8000 ) // if key pressed
+    if( GetKeyState( key ) & 0x8000 )   // if key pressed
     {
-        while( GetKeyState( key ) & 0x8000 ); // while key pressed do nothing
+        while( GetKeyState( key ) & 0x8000 );   // while key pressed do nothing
         return true;
     }
 
     return false;
 }
 
-bool isAnyKeyPressed() // return if any key is pressed
+
+bool isAnyKeyPressed()   // return if any key is pressed
 {
     for( char i{0}; i < 127; ++i)
     {
@@ -88,5 +96,6 @@ bool isAnyKeyPressed() // return if any key is pressed
     return false;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endif // MY_GLOBALS_H
