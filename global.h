@@ -43,6 +43,8 @@ extern const float MALUS_DOUBLE_ATTACK_MULTIPLIER{0.50f};
 extern const float BONUS_DAMAGE_TAKEN_MULTIPLIER{1.50f};
 
 
+extern int arenaSurfaceType;
+
 // arrays //
 extern const std::string SURFACE_TYPES[6]{
     "electric",

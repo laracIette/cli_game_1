@@ -74,6 +74,11 @@ public:
 
     void selectEnemy();
 
+    void simpleAttack();
+    void doubleAttack();
+
+    void skipTurn();
+
 };
 
 #endif // MY_PLAYER_H

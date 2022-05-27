@@ -1,11 +1,10 @@
-#include "Arena.cpp"
 #include "Player.cpp"
 
 void runMenu();
 void runGame();
 
 std::vector<Player> playersArray;
-Arena MyArena;
+int arenaSurfaceType;
 
 int main()
 {
@@ -64,7 +63,7 @@ void runMenu()
                     isRunGame = true;
                     isRunning = false;
 
-                    MyArena.setSurfaceType( rand() % PROB_ARENA_SURFACE );
+                    arenaSurfaceType = rand() % PROB_ARENA_SURFACE;
                 }
                 else
                 {
@@ -92,9 +91,6 @@ void runMenu()
 void runGame()
 {
     bool isNext{false};
-
-    int shieldBeforeAttack{0};
-    int attackDamage{0};
 
     bool isRunning{true};
     while( isRunning )
@@ -133,66 +129,7 @@ void runGame()
                     }
                     else
                     {
-                        attackDamage = ATTACK_SIMPLE_DAMAGE;
-
-                        if( (rand() % PROB_MALUS_SIMPLE_ATTACK == 0) and (playersArray[i].getCounterType() == MyArena.getSurfaceType()) )
-                        {
-                            attackDamage = ATTACK_SIMPLE_DAMAGE * MALUS_SIMPLE_ATTACK_MULTIPLIER;
-                            std::cout << "Damage reducted because of surface and player type\n";
-                        }
-                        else if( (rand() % PROB_BONUS_DAMAGE_TAKEN == 0) and (playersArray[playersArray[i].getEnemyNumber()].getCounterType() == MyArena.getSurfaceType()) )
-                        {
-                            attackDamage = ATTACK_SIMPLE_DAMAGE * BONUS_DAMAGE_TAKEN_MULTIPLIER;
-                            std::cout << "Damage increased because of surface and player type\n";
-                        }
-
-                        if( (rand() % PROB_DOUBLE_DAMAGE == 0) )
-                        {
-                            std::cout << "Double damage available\n"
-                                         "1 : Yes, 2 : No\n";
-                            for(;;)
-                            {
-                                if( isKeyPressed( '1' ) )
-                                {
-                                    attackDamage *= 2 ;
-                                    break;
-                                }
-                                else if( isKeyPressed( '2' ) )
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-                        if( playersArray[i].getSkippedTurns() > 0 )
-                        {
-                            playersArray[i].setSkippedTurns( 0 );
-                        }
-
-                        shieldBeforeAttack = playersArray[playersArray[i].getEnemyNumber()].getShield();
-
-                        if( shieldBeforeAttack > 0 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceShield( ATTACK_SIMPLE_SHIELD_DAMAGE );
-                        }
-
-                        if( shieldBeforeAttack == 0 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceHealth( attackDamage );
-                            std::cout << "Simple Attack inflicted\n";
-                        }
-                        else if( shieldBeforeAttack == 1 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceHealth( attackDamage / 2 );
-                            std::cout << "Damage divided by 2 because of shield\n"
-                                      << "Simple Attack inflicted\n";
-                        }
-                        else
-                        {
-                            std::cout << "Damage stopped by shield\n";
-                        }
-
-                        playersArray[i].reduceStamina( ATTACK_SIMPLE_STAMINA );
+                        playersArray[i].simpleAttack();
 
                         isNext = true;
                     }
@@ -205,78 +142,14 @@ void runGame()
                     }
                     else
                     {
-                        attackDamage = ATTACK_DOUBLE_DAMAGE;
-
-                        if( (rand() % PROB_MALUS_DOUBLE_ATTACK == 0) and (playersArray[i].getCounterType() == MyArena.getSurfaceType()) )
-                        {
-                            attackDamage = ATTACK_DOUBLE_DAMAGE * MALUS_DOUBLE_ATTACK_MULTIPLIER;
-                            std::cout << "Damage reducted because of surface and player type\n";
-                        }
-                        else if( (rand() % PROB_BONUS_DAMAGE_TAKEN == 0) and (playersArray[playersArray[i].getEnemyNumber()].getCounterType() == MyArena.getSurfaceType()) )
-                        {
-                            attackDamage = ATTACK_DOUBLE_DAMAGE * BONUS_DAMAGE_TAKEN_MULTIPLIER;
-                            std::cout << "Damage increased because of surface and player type\n";
-                        }
-
-                        if( playersArray[i].getSkippedTurns() > 0 )
-                        {
-                            playersArray[i].setSkippedTurns( 0 );
-                        }
-
-                        shieldBeforeAttack = playersArray[playersArray[i].getEnemyNumber()].getShield();
-
-                        if( shieldBeforeAttack > 0 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceShield( ATTACK_DOUBLE_SHIELD_DAMAGE );
-                        }
-
-                        if( shieldBeforeAttack == 0 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceHealth( attackDamage );
-                            std::cout << "Double Attack inflicted\n";
-                        }
-                        else if( shieldBeforeAttack == 1 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceHealth( attackDamage * 2 / 3 );
-                            std::cout << "Damage divided by 1.5 because of shield\n"
-                                      << "Double Attack inflicted\n";
-                        }
-                        else if( shieldBeforeAttack == 2 )
-                        {
-                            playersArray[playersArray[i].getEnemyNumber()].reduceHealth( attackDamage / 3 );
-                            std::cout << "Damage divided by 3 because of shield\n"
-                                      << "Double Attack inflicted\n";
-                        }
-                        else
-                        {
-                            std::cout << "Damage stopped by shield\n";
-                        }
-
-                        playersArray[i].reduceStamina( ATTACK_DOUBLE_STAMINA );
+                        playersArray[i].doubleAttack();
 
                         isNext = true;
                     }
                 }
                 else if( isKeyPressed( 'N' ) )
                 {
-                    playersArray[i].increaseSkippedTurns( 1 );
-                    std::cout << playersArray[i].getSkippedTurns() << " skipped turns in a row\n";
-
-                    if( playersArray[i].getSkippedTurns() == 1 )
-                    {
-                        playersArray[i].increaseStamina( 1 );
-                        playersArray[i].increaseHealth( 5 );
-                    }
-                    else if( playersArray[i].getSkippedTurns() == 2 )
-                    {
-                        playersArray[i].increaseStamina( 2 );
-                        playersArray[i].increaseHealth( 6 );
-                        playersArray[i].increaseShield( 1 );
-                    }
-                    else if( playersArray[i].getSkippedTurns() == 3 )
-                    {
-                        playersArray[i].increaseShield( 2 );
-                    }
+                    playersArray[i].skipTurn();
 
                     isNext = true;
                 }

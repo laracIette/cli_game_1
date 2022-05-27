@@ -231,3 +231,141 @@ void Player::selectEnemy()
         }
     }
 }
+
+void Player::simpleAttack()
+{
+    int attackDamage{ATTACK_SIMPLE_DAMAGE};
+
+    if( (rand() % PROB_MALUS_SIMPLE_ATTACK == 0) and (getCounterType() == arenaSurfaceType) )
+    {
+        attackDamage = ATTACK_SIMPLE_DAMAGE * MALUS_SIMPLE_ATTACK_MULTIPLIER;
+        std::cout << "Damage reducted because of surface and player type\n";
+    }
+    else if( (rand() % PROB_BONUS_DAMAGE_TAKEN == 0) and (playersArray[getEnemyNumber()].getCounterType() == arenaSurfaceType) )
+    {
+        attackDamage = ATTACK_SIMPLE_DAMAGE * BONUS_DAMAGE_TAKEN_MULTIPLIER;
+        std::cout << "Damage increased because of surface and player type\n";
+    }
+
+    if( (rand() % PROB_DOUBLE_DAMAGE == 0) )
+    {
+        std::cout << "Double damage available\n"
+                        "1 : Yes, 2 : No\n";
+        for(;;)
+        {
+            if( isKeyPressed( '1' ) )
+            {
+                attackDamage *= 2 ;
+                break;
+            }
+            else if( isKeyPressed( '2' ) )
+            {
+                break;
+            }
+        }
+    }
+
+    if( getSkippedTurns() > 0 )
+    {
+        setSkippedTurns( 0 );
+    }
+
+    int shieldBeforeAttack{playersArray[getEnemyNumber()].getShield()};
+
+    if( shieldBeforeAttack > 0 )
+    {
+        playersArray[getEnemyNumber()].reduceShield( ATTACK_SIMPLE_SHIELD_DAMAGE );
+    }
+
+    if( shieldBeforeAttack == 0 )
+    {
+        playersArray[getEnemyNumber()].reduceHealth( attackDamage );
+        std::cout << "Simple Attack inflicted\n";
+    }
+    else if( shieldBeforeAttack == 1 )
+    {
+        playersArray[getEnemyNumber()].reduceHealth( attackDamage / 2 );
+        std::cout << "Damage divided by 2 because of shield\n"
+                    << "Simple Attack inflicted\n";
+    }
+    else
+    {
+        std::cout << "Damage stopped by shield\n";
+    }
+
+    reduceStamina( ATTACK_SIMPLE_STAMINA );
+}
+
+void Player::doubleAttack()
+{
+    int attackDamage{ATTACK_DOUBLE_DAMAGE};
+
+    if( (rand() % PROB_MALUS_DOUBLE_ATTACK == 0) and (getCounterType() == arenaSurfaceType) )
+    {
+        attackDamage = ATTACK_DOUBLE_DAMAGE * MALUS_DOUBLE_ATTACK_MULTIPLIER;
+        std::cout << "Damage reducted because of surface and player type\n";
+    }
+    else if( (rand() % PROB_BONUS_DAMAGE_TAKEN == 0) and (playersArray[getEnemyNumber()].getCounterType() == arenaSurfaceType) )
+    {
+        attackDamage = ATTACK_DOUBLE_DAMAGE * BONUS_DAMAGE_TAKEN_MULTIPLIER;
+        std::cout << "Damage increased because of surface and player type\n";
+    }
+
+    if( getSkippedTurns() > 0 )
+    {
+        setSkippedTurns( 0 );
+    }
+
+    int shieldBeforeAttack{playersArray[getEnemyNumber()].getShield()};
+
+    if( shieldBeforeAttack > 0 )
+    {
+        playersArray[getEnemyNumber()].reduceShield( ATTACK_DOUBLE_SHIELD_DAMAGE );
+    }
+
+    if( shieldBeforeAttack == 0 )
+    {
+        playersArray[getEnemyNumber()].reduceHealth( attackDamage );
+        std::cout << "Double Attack inflicted\n";
+    }
+    else if( shieldBeforeAttack == 1 )
+    {
+        playersArray[getEnemyNumber()].reduceHealth( attackDamage * 2 / 3 );
+        std::cout << "Damage divided by 1.5 because of shield\n"
+                    << "Double Attack inflicted\n";
+    }
+    else if( shieldBeforeAttack == 2 )
+    {
+        playersArray[getEnemyNumber()].reduceHealth( attackDamage / 3 );
+        std::cout << "Damage divided by 3 because of shield\n"
+                    << "Double Attack inflicted\n";
+    }
+    else
+    {
+        std::cout << "Damage stopped by shield\n";
+    }
+
+    reduceStamina( ATTACK_DOUBLE_STAMINA );
+}
+
+void Player::skipTurn()
+{
+    increaseSkippedTurns( 1 );
+    std::cout << getSkippedTurns() << " skipped turns in a row\n";
+
+    if( getSkippedTurns() == 1 )
+    {
+        increaseStamina( 1 );
+        increaseHealth( 5 );
+    }
+    else if( getSkippedTurns() == 2 )
+    {
+        increaseStamina( 2 );
+        increaseHealth( 6 );
+        increaseShield( 1 );
+    }
+    else if( getSkippedTurns() == 3 )
+    {
+        increaseShield( 2 );
+    }
+}
