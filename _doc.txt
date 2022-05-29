@@ -13,7 +13,7 @@ Player
                    boule de feu
 
 Arena
-    Types (avantage type player) + 1/14 esquive
+    Types (avantage type player)
         electrique
         eau
         feu
@@ -23,6 +23,7 @@ Arena
 
     Random
 
+1/6 dodge
 
 choisissez votre type
 

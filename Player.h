@@ -33,14 +33,14 @@ public:
 
     void setShield( int shl );
 
-    void setDodge( int ddg );
     void setSkippedTurns( int skp );
-
-    bool setType();
-    void setCounterType( int typ );
 
     void setPlayerNumber( int num );
     void setEnemyNumber( int num );
+
+    // one time use //
+    bool setType();
+    void setCounterType();
 
 
     // get //
@@ -49,7 +49,6 @@ public:
 
     int getShield();
 
-    int getDodge();
     int getSkippedTurns();
 
     int getType();

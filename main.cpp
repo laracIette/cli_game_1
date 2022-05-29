@@ -4,6 +4,7 @@
 
 void runMenu();
 void runGame();
+void showAllStats();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -122,6 +123,8 @@ void runGame()
             std::cout << "Enemy : ";
             playersArray[playersArray[i].getEnemyNumber()].showShortStats();   // show current player's enemy's stats
 
+            //showAllStats();
+
             for(;;)
             {
                 isNext = false;
@@ -149,7 +152,12 @@ void runGame()
                     }
                     else
                     {
-                        playersArray[i].simpleAttack();   // do simple attack
+                        playersArray[i].reduceStamina( ATTACK_SIMPLE_STAMINA );
+
+                        if( rand() % PROB_DODGE == 0 )
+                            std::cout << "Enemy dodged attack\n";
+                        else
+                            playersArray[i].simpleAttack();   // do simple attack
 
                         isNext = true;   // go to next player
                     }
@@ -163,7 +171,12 @@ void runGame()
                     }
                     else
                     {
-                        playersArray[i].doubleAttack();
+                        playersArray[i].reduceStamina( ATTACK_DOUBLE_STAMINA );
+
+                        if( rand() % PROB_DODGE == 0 )
+                            std::cout << "Enemy dodged attack\n";
+                        else
+                            playersArray[i].doubleAttack();
 
                         isNext = true;
                     }
@@ -199,5 +212,20 @@ void runGame()
                 }
             }
         }
+    }
+}
+
+void showAllStats()
+{
+    for( size_t i{0}; i < playersArray.size(); ++i )
+    {
+        std::cout << "Player "        << playersArray[i].getPlayerNumber() << '\n'
+                  << "Counter type  " << playersArray[i].getCounterType()  << '\n'
+                  << "Enemy number  " << playersArray[i].getEnemyNumber()  << '\n'
+                  << "Health points " << playersArray[i].getHealthPoints() << '\n'
+                  << "Shield        " << playersArray[i].getShield()       << '\n'
+                  << "Skipped turns " << playersArray[i].getSkippedTurns() << '\n'
+                  << "Stamina       " << playersArray[i].getStamina()      << '\n'
+                  << "Type          " << playersArray[i].getType()         << "\n\n";
     }
 }

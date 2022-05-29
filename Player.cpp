@@ -9,26 +9,38 @@ Player::Player()
 // set //
 void Player::setHealthPoints( int hPoints )
 {
-    healthPoints = hPoints;
+    if( hPoints < 0 )
+        throw std::invalid_argument("Health points should be over 0");
+    this->healthPoints = hPoints;
 }
 void Player::setStamina( int sta )
 {
+    if( sta < 0 )
+        throw std::invalid_argument("Stamina should be over 0");
     this->stamina = sta;
 }
 void Player::setShield( int shl )
 {
+    if( shl < 0 )
+        throw std::invalid_argument("Shield should be over 0");
     this->shield = shl;
 }
 void Player::setSkippedTurns( int skp )
 {
+    if( skp < 0 )
+        throw std::invalid_argument("Skipped turns should be over 0");
     this->skippedTurns = skp;
 }
 void Player::setPlayerNumber( int num )
 {
+    if( num < 0 )
+        throw std::invalid_argument("Player number should be over 0");
     this->playerNumber = num;
 }
 void Player::setEnemyNumber( int num )
 {
+    if( num < 0 )
+        throw std::invalid_argument("Enemy number should be over 0");
     this->enemyNumber = num;
 }
 
@@ -94,6 +106,7 @@ bool Player::setType()
                     }
                 }
                 this->playerType = i;
+                setCounterType();
                 std::cout << "New Player added\n\n";
                 return 1;
             }
@@ -103,7 +116,7 @@ bool Player::setType()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::setCounterType( int typ )
+void Player::setCounterType()
 {
     if     ( getType() == 0 ) this->counterType = 2;
     else if( getType() == 1 ) this->counterType = 0;
@@ -312,8 +325,6 @@ void Player::simpleAttack()
     {
         std::cout << "Damage stopped by shield\n";
     }
-
-    reduceStamina( ATTACK_SIMPLE_STAMINA );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -366,8 +377,6 @@ void Player::doubleAttack()
     {
         std::cout << "Damage stopped by shield\n";
     }
-
-    reduceStamina( ATTACK_DOUBLE_STAMINA );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

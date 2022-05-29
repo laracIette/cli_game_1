@@ -17,6 +17,7 @@ extern const int PROB_ARENA_SURFACE{6};
 extern const int PROB_MALUS_SIMPLE_ATTACK{3};
 extern const int PROB_MALUS_DOUBLE_ATTACK{2};
 extern const int PROB_BONUS_DAMAGE_TAKEN{4};
+extern const int PROB_DODGE{6};
 
 
 // other //
@@ -39,7 +40,7 @@ extern const int SKIP_SECOND_TURN_HEALTH_POINTS_GAIN{6};
 extern const int ATTACK_SIMPLE_SHIELD_DAMAGE{2};
 extern const int ATTACK_DOUBLE_SHIELD_DAMAGE{3};
 
-extern const int MAXIMUM_NUMBER_OF_PLAYERS{5};
+extern const int MAXIMUM_NUMBER_OF_PLAYERS{3};
 
 
 // multipliers // MULTIPLIED * MULTIPLIER //
